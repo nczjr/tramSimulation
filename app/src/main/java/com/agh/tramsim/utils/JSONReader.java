@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class JSONReader<T> {
                         JSONArray positionArray = (JSONArray) coordinates.get(j);
                         double x = Double.parseDouble(positionArray.get(0).toString());
                         double y = Double.parseDouble(positionArray.get(1).toString());
-                        positions.get(positions.size() - 1).add(new Position(x, y));
+                        positions.get(positions.size() - 1).add(new Position(BigDecimal.valueOf(x), BigDecimal.valueOf(y)));
                     }
                 }
             }

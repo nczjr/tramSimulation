@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 
 public class StopFactor extends Factor {
 
+    private int numberOfStops;
+
     public StopFactor(BigDecimal initialValue) {
         super(initialValue);
     }

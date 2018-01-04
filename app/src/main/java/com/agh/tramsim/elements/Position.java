@@ -1,28 +1,33 @@
 package com.agh.tramsim.elements;
 
+import java.math.BigDecimal;
+
 public class Position {
 
-    private double x;
-    private double y;
+    private BigDecimal x;
+    private BigDecimal y;
 
-    public Position(double x, double y) {
+    public Position() {
+    }
+
+    public Position(BigDecimal x, BigDecimal y) {
         this.x = x;
         this.y = y;
     }
 
-    public double getX() {
+    public BigDecimal getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(BigDecimal x) {
         this.x = x;
     }
 
-    public double getY() {
+    public BigDecimal getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(BigDecimal y) {
         this.y = y;
     }
 }
