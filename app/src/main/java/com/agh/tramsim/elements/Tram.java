@@ -14,11 +14,13 @@ public class Tram {
     private BigDecimal latitude;
     private BigDecimal longitude;
     private Position currentPosition;
+    private Route currentRoute;
     private TramRoute tramRoute;
     private PopulationCounter populationCounter;
     private int capacity;
 
     public Tram() {
+        this.populationCounter = new PopulationCounter(this);
     }
 
     public Tram(Position currentPosition, TramRoute tramRoute, PopulationCounter populationCounter) {
@@ -73,6 +75,14 @@ public class Tram {
 
     public void setCurrentPosition(Position currentPosition) {
         this.currentPosition = currentPosition;
+    }
+
+    public Route getCurrentRoute() {
+        return currentRoute;
+    }
+
+    public void setCurrentRoute(Route currentRoute) {
+        this.currentRoute = currentRoute;
     }
 
     public TramRoute getTramRoute() {

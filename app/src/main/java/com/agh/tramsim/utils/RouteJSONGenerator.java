@@ -6,13 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class RouteJSONGenerator {
 
@@ -24,7 +22,7 @@ public class RouteJSONGenerator {
         String[] stopsNames = stops.split("\n");
         Stop stop;
         for (int i = 0; i < stopsNames.length; i++) {
-            stop = new Stop(stopsNames[i], BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(0, 1)));
+            stop = new Stop(stopsNames[i]);
             lines.add("\t" + new Gson().toJson(stop) + ",\n");
         }
         lines.add("\t]\n");

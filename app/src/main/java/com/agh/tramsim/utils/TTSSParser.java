@@ -1,9 +1,15 @@
 package com.agh.tramsim.utils;
 
+import com.agh.tramsim.elements.Stop;
 import com.agh.tramsim.elements.Tram;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,19 +24,49 @@ public class TTSSParser {
 
     private static final String TTSS = "http://www.ttss.krakow.pl/internetservice";
     private static final String TRAMS = "/geoserviceDispatcher/services/vehicleinfo/vehicles?positionType=CORRECTED&colorType=ROUTE_BASED";
+    private static final String ROUTE = "/services/tripInfo/tripPassages?tripId=";
 
     public static List<Tram> getAllTrams() {
-        String pageContent = getPageContent(TTSS + TRAMS);
-        String[] json = pageContent.split(":", 3);
+        String jsonArrayAsString = (String) getJSONArrayAsObject(getPageContent(TTSS + TRAMS), "vehicles");
         ObjectMapper objectMapper = new ObjectMapper();
         List<Tram> trams;
         try {
-            trams = objectMapper.readValue(json[2], new TypeReference<List<Tram>>(){});
+            trams = objectMapper.readValue(jsonArrayAsString, new TypeReference<List<Tram>>(){});
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        return trams.stream().filter(tram -> tram.getName() != null).collect(Collectors.toList());
+        trams = trams.stream().filter(tram -> tram.getName() != null).collect(Collectors.toList());
+        for (Tram tram : trams) {
+            tram.calculateCurrentPosition();
+        }
+        return trams;
+    }
+
+    public static List<Stop> getCurrentRouteForTram(String tripId) {
+        JSONArray jsonArray = (JSONArray) getJSONArrayAsObject(getPageContent(TTSS + ROUTE + tripId), "actual");
+        List<Stop> stops = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                String name = jsonArray.getJSONObject(i).getJSONObject("stop").getString("name");
+                int sequentialNumber = jsonArray.getJSONObject(i).getInt("stop_seq_num");
+                stops.add(new Stop(name, sequentialNumber));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return stops;
+    }
+
+    private static Object getJSONArrayAsObject(String pageContent, String arrayName) {
+        JSONParser jsonParser = new JSONParser();
+        try {
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(pageContent);
+            return jsonObject.get(arrayName);
+        } catch (ParseException | JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private static String getPageContent(String urlString) {

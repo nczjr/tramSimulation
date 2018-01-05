@@ -1,42 +1,36 @@
 package com.agh.tramsim.models;
 
 import com.agh.tramsim.core.Factor;
-import com.agh.tramsim.factors.LineFactor;
+import com.agh.tramsim.elements.Tram;
 import com.agh.tramsim.factors.StopFactor;
 import com.agh.tramsim.factors.TimeFactor;
-import com.agh.tramsim.factors.WeatherFactor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PopulationCounter {
 
     private BigDecimal population;
+    private Tram tram;
+    private List<Factor> factors;
 
-    Factor[] factors;
-
-    public PopulationCounter(BigDecimal population) {
-        this.population = population;
-        factors = new Factor[4];
-        factors[0] = new LineFactor(population);
-        factors[1] = new StopFactor(population);
-        factors[2] = new TimeFactor(population);
-        factors[3] = new WeatherFactor(population);
-
+    public PopulationCounter(Tram tram) {
+        this.tram = tram;
+        factors = new ArrayList<>();
+        factors.add(new StopFactor(tram));
+        factors.add(new TimeFactor(tram));
     }
 
-    public void updatePopulation() {
-        BigDecimal accumulator = BigDecimal.ZERO;
-        accumulator.add(population);
-        for (int i = 0; i < factors.length; i++) {
-            accumulator.add(factors[i].calculatePopulation());
-        }
-        population = accumulator;
-        updateAllFactorWeights();
+    public BigDecimal getPopulation() {
+        return population;
     }
 
-    private void updateAllFactorWeights() {
-        for (int i = 0; i < factors.length; i++) {
-            factors[i].updateWeight(population);
+    public void calculatePopulation() {
+        population = BigDecimal.valueOf(tram.getCapacity());
+        for (Factor factor : factors) {
+            factor.calculateValue();
+            population = population.multiply(factor.getValue());
         }
     }
 
