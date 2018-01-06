@@ -5,7 +5,7 @@ android {
     buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.example.natka.maps"
-        minSdkVersion 27
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 1
         versionName "1.8"
@@ -48,5 +48,6 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.7.3'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.3'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
+    compile 'com.annimon:stream:1.1.9'
     testCompile 'junit:junit:4.12'
 }
