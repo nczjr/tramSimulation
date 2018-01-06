@@ -8,7 +8,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 27
         versionCode 1
-        versionName "1.8"
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         jackOptions {
             enabled true
@@ -19,10 +19,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
