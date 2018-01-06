@@ -2,34 +2,47 @@ package com.agh.tramsim.maps;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.agh.tramsim.elements.Position;
+import com.agh.tramsim.elements.Tram;
+import com.agh.tramsim.utils.JSONReader;
+import com.agh.tramsim.utils.TTSSParser;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.data.geojson.GeoJsonFeature;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonPointStyle;
 import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
 
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final LatLng CRACOW = new LatLng(50.063118, 19.944923);
     private static final long ZOOM = 10;
+    private static final Logger LOGGER = LoggerFactory.getLogger(MapsActivity.class);
 
-//    private static final BitmapDescriptor ICON = BitmapDescriptorFactory.fromResource(R.drawable.przystanek);
+
+    //    private static final BitmapDescriptor ICON = BitmapDescriptorFactory.fromResource(R.drawable.przystanek);
     private GeoJsonLayer tramLayer = null;
     private GeoJsonLayer stopsLayer = null;
 
-    private GoogleMap map;
+    private volatile List<Tram> trams;
+
+    private volatile GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +52,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Thread t = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                // Do network action in this function
+                trams = TTSSParser.getAllTrams();
+            }
+        });
+        t.start();
+
+
+
     }
+
 
 
     /**
@@ -58,12 +84,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         map.moveCamera(CameraUpdateFactory.newLatLng(CRACOW));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(CRACOW, ZOOM));
 
-        addLayers();
 
+
+
+        map.clear();
+        addLayers();
         setStopNames();
+        for (Tram tram: trams) {
+            Position pos = tram.getCurrentPosition();
+            map.addMarker(new MarkerOptions()
+                    .position(new LatLng(pos.getX().doubleValue(),pos.getY().doubleValue())))
+                    .setTitle(tram.getName());
+
+        }
+
+
 
 
     }
+
+
+
+
+
 
     private void addLayers() {
 

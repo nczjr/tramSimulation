@@ -7,13 +7,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class TTSSParser {
     private static final String ROUTE = "/services/tripInfo/tripPassages?tripId=";
 
     public static List<Tram> getAllTrams() {
-        String jsonArrayAsString = (String) getJSONArrayAsObject(getPageContent(TTSS + TRAMS), "vehicles");
+        String jsonArrayAsString =  getJSONArrayAsObject(getPageContent(TTSS + TRAMS), "vehicles").toString();
         ObjectMapper objectMapper = new ObjectMapper();
         List<Tram> trams;
         try {
@@ -63,7 +65,7 @@ public class TTSSParser {
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(pageContent);
             return jsonObject.get(arrayName);
-        } catch (ParseException | JSONException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return null;
@@ -71,20 +73,26 @@ public class TTSSParser {
 
     private static String getPageContent(String urlString) {
         StringBuilder stringBuilder = new StringBuilder();
+        InputStream in = null;
         try {
             URL url = new URL(urlString);
-            URLConnection urlConnection = url.openConnection();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                    urlConnection.getInputStream()));
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setAllowUserInteraction(false);
+            conn.setInstanceFollowRedirects(true);
+            conn.setRequestMethod("GET");
+            conn.connect();
+            if (conn.getResponseCode() ==  HttpURLConnection.HTTP_OK) {
+                in = conn.getInputStream();
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
             String inputLine;
-            while ((inputLine = bufferedReader.readLine()) != null) {
+            while ((inputLine = reader.readLine()) != null) {
                 stringBuilder.append(inputLine);
             }
-            bufferedReader.close();
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return stringBuilder.toString();
     }
-
 }

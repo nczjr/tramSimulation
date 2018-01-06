@@ -4,6 +4,9 @@ import com.agh.tramsim.models.PopulationCounter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+import static java.math.RoundingMode.DOWN;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Tram {
@@ -110,8 +113,8 @@ public class Tram {
     }
 
     public void calculateCurrentPosition() {
-        BigDecimal x = longitude.divide(BigDecimal.valueOf(3600000.0), 7);
-        BigDecimal y = latitude.divide(BigDecimal.valueOf(3600000.0), 7);
+        BigDecimal x = latitude.divide(BigDecimal.valueOf(3600000.0), 7, DOWN);
+        BigDecimal y = longitude.divide(BigDecimal.valueOf(3600000.0), 7, DOWN);
         currentPosition = new Position(x, y);
     }
 }
