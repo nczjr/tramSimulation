@@ -20,41 +20,41 @@ public class StopFactor extends Factor {
     @Override
     public void calculateValue() {
         updateStops();
-        int sequentialNumber = currentStop.getSequentialNumber();
-        if (sequentialNumber < (numberOfStops * 0.1)) {
+        double sequentialNumber = (double) currentStop.getSequentialNumber();
+        if (sequentialNumber < (((double) numberOfStops) * 0.1)) {
             value = BigDecimal.valueOf(0.2);
             return;
         }
-        if (sequentialNumber < (numberOfStops * 0.2)) {
+        if (sequentialNumber < (((double) numberOfStops) * 0.2)) {
             value = BigDecimal.valueOf(0.3);
             return;
         }
-        if (sequentialNumber < (numberOfStops * 0.3)) {
+        if (sequentialNumber < (((double) numberOfStops) * 0.3)) {
             value = BigDecimal.valueOf(0.5);
             return;
         }
-        if (sequentialNumber < (numberOfStops * 0.4)) {
+        if (sequentialNumber < (((double) numberOfStops) * 0.4)) {
             value = BigDecimal.valueOf(0.7);
             return;
         }
-        if (sequentialNumber < (numberOfStops * 0.6)) {
+        if (sequentialNumber < (((double) numberOfStops) * 0.6)) {
             value = BigDecimal.ONE;
             return;
         }
-        if (sequentialNumber < (numberOfStops * 0.7)) {
+        if (sequentialNumber < (((double) numberOfStops) * 0.7)) {
             value = BigDecimal.valueOf(0.5);
             return;
         }
-        if (sequentialNumber < (numberOfStops * 0.8)) {
+        if (sequentialNumber < (((double) numberOfStops) * 0.8)) {
             value = BigDecimal.valueOf(0.3);
             return;
         }
 
-        if (sequentialNumber < (numberOfStops * 0.9)) {
+        if (sequentialNumber < (((double) numberOfStops) * 0.9)) {
             value = BigDecimal.valueOf(0.2);
             return;
         }
-        if (sequentialNumber == numberOfStops) {
+        if (sequentialNumber == ((double) numberOfStops)) {
             value = BigDecimal.ZERO;
         }
     }

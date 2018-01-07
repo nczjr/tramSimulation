@@ -1,10 +1,9 @@
 package com.agh.tramsim.elements;
 
-import com.agh.tramsim.models.PopulationCounter;
+import com.agh.tramsim.models.Population;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import static java.math.RoundingMode.DOWN;
 
@@ -12,24 +11,24 @@ import static java.math.RoundingMode.DOWN;
 public class Tram {
 
     private int number;
-    private String Name;
+    private String name;
     private String tripId;
     private BigDecimal latitude;
     private BigDecimal longitude;
     private Position currentPosition;
     private Route currentRoute;
     private TramRoute tramRoute;
-    private PopulationCounter populationCounter;
+    private Population population;
     private int capacity;
 
     public Tram() {
-        this.populationCounter = new PopulationCounter(this);
+        this.population = new Population(this);
     }
 
-    public Tram(Position currentPosition, TramRoute tramRoute, PopulationCounter populationCounter) {
+    public Tram(Position currentPosition, TramRoute tramRoute, Population population) {
         this.currentPosition = currentPosition;
         this.tramRoute = tramRoute;
-        this.populationCounter = populationCounter;
+        this.population = population;
     }
 
     public int getNumber() {
@@ -41,11 +40,11 @@ public class Tram {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getTripId() {
@@ -96,12 +95,12 @@ public class Tram {
         this.tramRoute = tramRoute;
     }
 
-    public PopulationCounter getPopulationCounter() {
-        return populationCounter;
+    public Population getPopulation() {
+        return population;
     }
 
-    public void setPopulationCounter(PopulationCounter populationCounter) {
-        this.populationCounter = populationCounter;
+    public void setPopulation(Population population) {
+        this.population = population;
     }
 
     public int getCapacity() {
@@ -116,5 +115,9 @@ public class Tram {
         BigDecimal x = latitude.divide(BigDecimal.valueOf(3600000.0), 7, DOWN);
         BigDecimal y = longitude.divide(BigDecimal.valueOf(3600000.0), 7, DOWN);
         currentPosition = new Position(x, y);
+    }
+
+    public void readNumberFromName() {
+        number = Integer.parseInt(name.split(" ")[0]);
     }
 }

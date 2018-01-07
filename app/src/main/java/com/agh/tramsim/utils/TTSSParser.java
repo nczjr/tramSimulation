@@ -41,6 +41,7 @@ public class TTSSParser {
         trams = trams.stream().filter(tram -> tram.getName() != null).collect(Collectors.toList());
         for (Tram tram : trams) {
             tram.calculateCurrentPosition();
+            tram.readNumberFromName();
         }
         return trams;
     }
