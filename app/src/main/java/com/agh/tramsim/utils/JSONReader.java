@@ -39,12 +39,12 @@ public class JSONReader<T> {
         ClassLoader classLoader = JSONReader.class.getClassLoader();
         Gson gson = new Gson();
         List<T> objects = new ArrayList<>();
-        try (Stream<String> stream = Files.lines(Paths.get(classLoader.getResource(filePath).getPath()))) {
-            stream.forEach(line -> objects.add(gson.fromJson(line, classType)));
-        } catch (IOException ex) {
-            LOGGER.warn("initStopsFromJSON(): " +  ex.getLocalizedMessage());
-            ex.printStackTrace();
-        }
+//        try (Stream<String> stream = Files.lines(Paths.get(classLoader.getResource(filePath).getPath()))) {
+//            stream.forEach(line -> objects.add(gson.fromJson(line, classType)));
+//        } catch (IOException ex) {
+//            LOGGER.warn("initStopsFromJSON(): " +  ex.getLocalizedMessage());
+//            ex.printStackTrace();
+//        }
         return  objects;
     }
 

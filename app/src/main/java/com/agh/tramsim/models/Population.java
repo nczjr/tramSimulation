@@ -42,13 +42,13 @@ public class Population {
     }
 
     private void calculatePopulationLevel() {
-        if (population.compareTo(BigDecimal.valueOf(0.25)) >= 0) {
+        if (population.compareTo(BigDecimal.valueOf(0.25)) <= 0) {
             populationLevel = PopulationLevel.GREEN;
-        } else if (population.compareTo(BigDecimal.valueOf(0.5)) >= 0) {
+        } else if (population.compareTo(BigDecimal.valueOf(0.5)) <= 0) {
             populationLevel = PopulationLevel.YELLOW;
-        } else if (population.compareTo(BigDecimal.valueOf(0.75)) >= 0) {
+        } else if (population.compareTo(BigDecimal.valueOf(0.75)) <= 0) {
             populationLevel = PopulationLevel.ORANGE;
-        } else if (population.compareTo(BigDecimal.ONE) >= 0) {
+        } else if (population.compareTo(BigDecimal.ONE) <= 0) {
             populationLevel = PopulationLevel.RED;
         }
     }
