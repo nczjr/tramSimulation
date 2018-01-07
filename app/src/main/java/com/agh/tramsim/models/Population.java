@@ -34,7 +34,9 @@ public class Population {
         population = BigDecimal.ONE;
         for (Factor factor : factors) {
             factor.calculateValue();
-            population = population.multiply(factor.getValue());
+            if (factor.getValue() != null) {
+                population = population.multiply(factor.getValue());
+            }
         }
         calculatePopulationLevel();
     }

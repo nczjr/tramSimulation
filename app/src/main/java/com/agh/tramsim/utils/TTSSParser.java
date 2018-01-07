@@ -5,7 +5,7 @@ import com.agh.tramsim.elements.Tram;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.json.JSONArray;
+import org.json.simple.JSONArray;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -49,14 +49,10 @@ public class TTSSParser {
     public static List<Stop> getCurrentRouteForTram(String tripId) {
         JSONArray jsonArray = (JSONArray) getJSONArrayAsObject(getPageContent(TTSS + ROUTE + tripId), "actual");
         List<Stop> stops = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            try {
-                String name = jsonArray.getJSONObject(i).getJSONObject("stop").getString("name");
-                int sequentialNumber = jsonArray.getJSONObject(i).getInt("stop_seq_num");
-                stops.add(new Stop(name, sequentialNumber));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        for (int i = 0; i < jsonArray.size(); i++) {
+            String name = ((JSONObject) ((JSONObject) jsonArray.get(i)).get("stop")).get("name").toString();
+            int sequentialNumber = Integer.parseInt(((JSONObject) jsonArray.get(i)).get("stop_seq_num").toString());
+            stops.add(new Stop(name, sequentialNumber));
         }
         return stops;
     }
