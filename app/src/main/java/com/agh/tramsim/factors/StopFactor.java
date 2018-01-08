@@ -20,42 +20,29 @@ public class StopFactor extends Factor {
     @Override
     public void calculateValue() {
         updateStops();
-        if (currentStop != null) {
+        if (currentStop == null) {
+            value = BigDecimal.ZERO;
+        } else {
             double sequentialNumber = (double) currentStop.getSequentialNumber();
             if (sequentialNumber < (((double) numberOfStops) * 0.1)) {
                 value = BigDecimal.valueOf(0.2);
-                return;
-            }
-            if (sequentialNumber < (((double) numberOfStops) * 0.2)) {
-                value = BigDecimal.valueOf(0.3);
-                return;
-            }
-            if (sequentialNumber < (((double) numberOfStops) * 0.3)) {
-                value = BigDecimal.valueOf(0.5);
-                return;
-            }
-            if (sequentialNumber < (((double) numberOfStops) * 0.4)) {
-                value = BigDecimal.valueOf(0.7);
-                return;
-            }
-            if (sequentialNumber < (((double) numberOfStops) * 0.6)) {
+            } else if (sequentialNumber < (((double) numberOfStops) * 0.2)) {
+                value = BigDecimal.valueOf(0.35);
+            } else if (sequentialNumber < (((double) numberOfStops) * 0.3)) {
+                value = BigDecimal.valueOf(0.55);
+            } else if (sequentialNumber < (((double) numberOfStops) * 0.4)) {
+                value = BigDecimal.valueOf(0.8);
+            } else if (sequentialNumber < (((double) numberOfStops) * 0.6)) {
                 value = BigDecimal.ONE;
-                return;
-            }
-            if (sequentialNumber < (((double) numberOfStops) * 0.7)) {
-                value = BigDecimal.valueOf(0.5);
-                return;
-            }
-            if (sequentialNumber < (((double) numberOfStops) * 0.8)) {
-                value = BigDecimal.valueOf(0.3);
-                return;
-            }
-
-            if (sequentialNumber < (((double) numberOfStops) * 0.9)) {
-                value = BigDecimal.valueOf(0.2);
-                return;
-            }
-            if (sequentialNumber == ((double) numberOfStops)) {
+            } else if (sequentialNumber < (((double) numberOfStops) * 0.7)) {
+                value = BigDecimal.valueOf(0.75);
+            } else if (sequentialNumber < (((double) numberOfStops) * 0.8)) {
+                value = BigDecimal.valueOf(0.45);
+            } else if (sequentialNumber < (((double) numberOfStops) * 0.9)) {
+                value = BigDecimal.valueOf(0.25);
+            } else if (sequentialNumber < (((double) numberOfStops))) {
+                value = BigDecimal.valueOf(0.1);
+            } else if (sequentialNumber == ((double) numberOfStops)) {
                 value = BigDecimal.ZERO;
             }
         }

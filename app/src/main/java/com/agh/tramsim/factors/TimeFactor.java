@@ -1,12 +1,11 @@
 package com.agh.tramsim.factors;
 
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 
 import com.agh.tramsim.core.Factor;
 import com.agh.tramsim.elements.Tram;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 
 public class TimeFactor extends Factor {
@@ -17,8 +16,8 @@ public class TimeFactor extends Factor {
 
     @Override
     public void calculateValue() {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH");
-        int hour = Integer.valueOf(sdf.format(Calendar.getInstance()));
+        Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
         if (hour < 5 || hour > 23) {
             value = BigDecimal.ZERO;
             return;
@@ -65,7 +64,9 @@ public class TimeFactor extends Factor {
         }
         if (hour < 23) {
             value = BigDecimal.valueOf(0.2);
+            return;
         }
+        value = BigDecimal.valueOf(0.1);
     }
 
 }

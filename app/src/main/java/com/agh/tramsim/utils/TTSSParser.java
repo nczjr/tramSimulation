@@ -38,12 +38,14 @@ public class TTSSParser {
             e.printStackTrace();
             return null;
         }
-        trams = trams.stream().filter(tram -> tram.getName() != null).collect(Collectors.toList());
+        List<Tram> resultTrams = new ArrayList<>();
         for (Tram tram : trams) {
-            tram.calculateCurrentPosition();
-            tram.readNumberFromName();
+            if (tram.getName() != null && !tram.getName().isEmpty() && tram.isTramCorrect()) {
+                tram.calculateCurrentPosition();
+                resultTrams.add(tram);
+            }
         }
-        return trams;
+        return resultTrams;
     }
 
     public static List<Stop> getCurrentRouteForTram(String tripId) {

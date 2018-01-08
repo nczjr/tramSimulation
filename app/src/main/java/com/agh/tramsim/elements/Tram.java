@@ -117,7 +117,21 @@ public class Tram {
         currentPosition = new Position(x, y);
     }
 
-    public void readNumberFromName() {
-        number = Integer.parseInt(name.split(" ")[0]);
+    public boolean isTramCorrect() {
+        try {
+            number = Integer.parseInt(name.split(" ")[0]);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Tram{" +
+                "name='" + name + '\'' +
+                ", currentPosition=" + currentPosition +
+                ", population=" + population +
+                '}';
     }
 }

@@ -30,4 +30,12 @@ public class Position {
     public void setY(BigDecimal y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
