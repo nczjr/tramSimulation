@@ -21,7 +21,7 @@ public class Population {
         this.tram = tram;
         factors = new ArrayList<>();
         factors.add(new StopFactor(tram));
-        factors.add(new TimeFactor(tram));
+//        factors.add(new TimeFactor(tram));
     }
 
     public BigDecimal getPopulation() {

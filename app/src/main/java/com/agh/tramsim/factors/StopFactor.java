@@ -25,13 +25,13 @@ public class StopFactor extends Factor {
         } else {
             double sequentialNumber = (double) currentStop.getSequentialNumber();
             if (sequentialNumber < (((double) numberOfStops) * 0.1)) {
-                value = BigDecimal.valueOf(0.2);
+                value = BigDecimal.valueOf(0.15);
             } else if (sequentialNumber < (((double) numberOfStops) * 0.2)) {
-                value = BigDecimal.valueOf(0.35);
+                value = BigDecimal.valueOf(0.25);
             } else if (sequentialNumber < (((double) numberOfStops) * 0.3)) {
-                value = BigDecimal.valueOf(0.55);
+                value = BigDecimal.valueOf(0.50);
             } else if (sequentialNumber < (((double) numberOfStops) * 0.4)) {
-                value = BigDecimal.valueOf(0.8);
+                value = BigDecimal.valueOf(0.75);
             } else if (sequentialNumber < (((double) numberOfStops) * 0.6)) {
                 value = BigDecimal.ONE;
             } else if (sequentialNumber < (((double) numberOfStops) * 0.7)) {
