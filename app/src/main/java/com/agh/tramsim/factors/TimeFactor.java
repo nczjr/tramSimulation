@@ -19,54 +19,33 @@ public class TimeFactor extends Factor {
         Calendar currentTime = Calendar.getInstance();
         int hour = currentTime.get(Calendar.HOUR_OF_DAY);
         if (hour < 5 || hour > 23) {
-            value = BigDecimal.ZERO;
-            return;
-        }
-        if (hour < 7) {
+            value = BigDecimal.valueOf(0.1);
+        } else if (hour < 7) {
             value = BigDecimal.valueOf(0.2);
-            return;
-        }
-        if (hour < 9) {
+        } else if (hour < 9) {
             value = BigDecimal.ONE;
-            return;
-        }
-        if (hour < 11) {
+        } else if (hour < 11) {
             value = BigDecimal.valueOf(0.7);
-            return;
-        }
-        if (hour < 13) {
+        } else if (hour < 13) {
             value = BigDecimal.valueOf(0.4);
-            return;
-        }
-        if (hour < 15) {
+        } else if (hour < 15) {
             value = BigDecimal.valueOf(0.5);
-            return;
-        }
-        if (hour < 16) {
+        } else if (hour < 16) {
             value = BigDecimal.valueOf(0.7);
-            return;
-        }
-        if (hour < 18) {
+        } else if (hour < 18) {
             value = BigDecimal.ONE;
-            return;
-        }
-        if (hour < 19) {
+        } else if (hour < 19) {
             value = BigDecimal.valueOf(0.85);
-            return;
-        }
-        if (hour < 20) {
+        } else if (hour < 20) {
             value = BigDecimal.valueOf(0.7);
-            return;
-        }
-        if (hour < 22) {
+        } else if (hour < 22) {
             value = BigDecimal.valueOf(0.4);
-            return;
-        }
-        if (hour < 23) {
+        } else if (hour < 23) {
             value = BigDecimal.valueOf(0.2);
-            return;
+        } else {
+            value = BigDecimal.valueOf(0.1);
         }
-        value = BigDecimal.valueOf(0.1);
+        normalizeValue(BigDecimal.ONE, BigDecimal.valueOf(0.3));
     }
 
 }

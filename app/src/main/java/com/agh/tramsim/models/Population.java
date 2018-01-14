@@ -3,6 +3,7 @@ package com.agh.tramsim.models;
 import com.agh.tramsim.core.Factor;
 import com.agh.tramsim.elements.PopulationLevel;
 import com.agh.tramsim.elements.Tram;
+import com.agh.tramsim.factors.LineFactor;
 import com.agh.tramsim.factors.StopFactor;
 import com.agh.tramsim.factors.TimeFactor;
 
@@ -21,7 +22,8 @@ public class Population {
         this.tram = tram;
         factors = new ArrayList<>();
         factors.add(new StopFactor(tram));
-//        factors.add(new TimeFactor(tram));
+        factors.add(new TimeFactor(tram));
+        factors.add(new LineFactor(tram));
     }
 
     public BigDecimal getPopulation() {

@@ -41,10 +41,8 @@ public class TTSSParser {
         List<Tram> resultTrams = new ArrayList<>();
         for (Tram tram : trams) {
             if (tram.getName() != null && !tram.getName().isEmpty() && tram.isTramCorrect()) {
-                if (tram.getNumber() == 4 || tram.getNumber() == 52 || tram.getNumber() == 50 || tram.getNumber() == 3) {
-                    tram.calculateCurrentPosition();
-                    resultTrams.add(tram);
-                }
+                tram.calculateCurrentPosition();
+                resultTrams.add(tram);
             }
         }
         return resultTrams;

@@ -45,8 +45,10 @@ public class StopFactor extends Factor {
             } else if (sequentialNumber == ((double) numberOfStops)) {
                 value = BigDecimal.ZERO;
             }
+            normalizeValue(BigDecimal.ONE, BigDecimal.valueOf(0.5));
         }
     }
+
 
     private void updateStops() {
         List<Stop> stops = TTSSParser.getCurrentRouteForTram(tram.getTripId());

@@ -1,6 +1,9 @@
 package com.agh.tramsim.utils;
 
 import com.agh.tramsim.elements.Position;
+import com.agh.tramsim.maps.R;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import org.json.simple.JSONArray;
@@ -10,19 +13,124 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class JSONReader<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JSONReader.class);
+
+    private static final String lineFactorJSON = "{\n" +
+            "  \"values\" : [\n" +
+            "    {\n" +
+            "      \"lineNumber\": 1,\n" +
+            "      \"value\": 130\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 2,\n" +
+            "      \"value\": 74\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 3,\n" +
+            "      \"value\": 54\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 4,\n" +
+            "      \"value\": 74\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 5,\n" +
+            "      \"value\": 73\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 6,\n" +
+            "      \"value\": 60\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 8,\n" +
+            "      \"value\": 131\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 9,\n" +
+            "      \"value\": 56\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 10,\n" +
+            "      \"value\": 73\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 11,\n" +
+            "      \"value\": 72\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 13,\n" +
+            "      \"value\": 54\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 14,\n" +
+            "      \"value\": 72\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 16,\n" +
+            "      \"value\": 66\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 17,\n" +
+            "      \"value\": 28\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 18,\n" +
+            "      \"value\": 131\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 19,\n" +
+            "      \"value\": 73\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 20,\n" +
+            "      \"value\": 129\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 21,\n" +
+            "      \"value\": 73\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 22,\n" +
+            "      \"value\": 73\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 24,\n" +
+            "      \"value\": 74\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 44,\n" +
+            "      \"value\": 22\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 50,\n" +
+            "      \"value\": 161\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"lineNumber\": 52,\n" +
+            "      \"value\": 161\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
 
     private final Class<T> classType;
 
@@ -78,6 +186,25 @@ public class JSONReader<T> {
             e.printStackTrace();
         }
         return positions;
+    }
+
+    public static Map<Integer, BigDecimal> initLineFactorJSON() {
+        Map<Integer, BigDecimal> map = new HashMap<>();
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) parser.parse(lineFactorJSON);
+//            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("src/main/res/raw/linefactor.json"));
+            JSONArray values = (JSONArray) jsonObject.get("values");
+            for (int i = 0; i < values.size(); i++) {
+                JSONObject tram = (JSONObject) values.get(i);
+                Integer lineNumber = Integer.valueOf(tram.get("lineNumber").toString());
+                BigDecimal value = new BigDecimal(tram.get("value").toString());
+                map.put(lineNumber, value);
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return map;
     }
 
 }

@@ -3,6 +3,7 @@ package com.agh.tramsim.core;
 import com.agh.tramsim.elements.Tram;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public abstract class Factor {
 
@@ -19,4 +20,11 @@ public abstract class Factor {
 
     public abstract void calculateValue();
 
+    protected void normalizeValue(BigDecimal maxValue, BigDecimal newMinValue) {
+        value = value.divide((maxValue), 5, RoundingMode.CEILING)
+                .multiply(BigDecimal.ONE.subtract(newMinValue))
+                .add(newMinValue);
+    }
+
 }
+
