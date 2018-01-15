@@ -26,6 +26,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -53,17 +54,98 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void run() {
                 while(true){
                     trams = TTSSParser.getAllTrams();
-                    for (Tram tram : trams) {
-                        tram.getPopulation().calculatePopulation();
+                    List<Tram> tram1 = trams.subList(0, trams.size()/8);
+                    List<Tram> tram2 = trams.subList(trams.size()/8, trams.size()/4);
+                    List<Tram> tram3 = trams.subList(trams.size()/4, 3*trams.size()/8);
+                    List<Tram> tram4 = trams.subList(3*trams.size()/8, trams.size()/2);
+                    List<Tram> tram5 = trams.subList(trams.size()/2, 5*trams.size()/8);
+                    List<Tram> tram6 = trams.subList(5*trams.size()/8, 3*trams.size()/4);
+                    List<Tram> tram7 = trams.subList(3*trams.size()/4, 7*trams.size()/8);
+                    List<Tram> tram8 = trams.subList(7*trams.size()/8, trams.size());
+                    Thread t1 = new Thread(new Runnable() {
+                        public void run() {
+                            for (Tram tram : tram1) {
+                                tram.getPopulation().calculatePopulation();
+                            }
+                        }
+                    });
+                    t1.start();
+                    Thread t2 = new Thread(new Runnable() {
+                        public void run() {
+                            for (Tram tram : tram2) {
+                                tram.getPopulation().calculatePopulation();
+                            }
+                        }
+                    });
+                    t2.start();
+                    Thread t3 = new Thread(new Runnable() {
+                        public void run() {
+                            for (Tram tram : tram3) {
+                                tram.getPopulation().calculatePopulation();
+                            }
+                        }
+                    });
+                    t3.start();
+                    Thread t4 = new Thread(new Runnable() {
+                        public void run() {
+                            for (Tram tram : tram4) {
+                                tram.getPopulation().calculatePopulation();
+                            }
+                        }
+                    });
+                    t4.start();
+                    Thread t5 = new Thread(new Runnable() {
+                        public void run() {
+                            for (Tram tram : tram5) {
+                                tram.getPopulation().calculatePopulation();
+                            }
+                        }
+                    });
+                    t5.start();
+                    Thread t6 = new Thread(new Runnable() {
+                        public void run() {
+                            for (Tram tram : tram6) {
+                                tram.getPopulation().calculatePopulation();
+                            }
+                        }
+                    });
+                    t6.start();
+                    Thread t7 = new Thread(new Runnable() {
+                        public void run() {
+                            for (Tram tram : tram7) {
+                                tram.getPopulation().calculatePopulation();
+                            }
+                        }
+                    });
+                    t7.start();
+                    Thread t8 = new Thread(new Runnable() {
+                        public void run() {
+                            for (Tram tram : tram8) {
+                                tram.getPopulation().calculatePopulation();
+                            }
+                        }
+                    });
+                    t8.start();
+                    try {
+                        t1.join();
+                        t2.join();
+                        t3.join();
+                        t4.join();
+                        t5.join();
+                        t6.join();
+                        t7.join();
+                        t8.join();
+                    }catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-
-                    handler.post(new Runnable() {
+                        handler.post(new Runnable() {
                         @Override
                         public void run() {
                             removeMarkers();
                             addUpdatedMarkers();
                         }
                     });
+
                     try {
                         Thread.sleep(1000);
                     }catch (InterruptedException e) {
