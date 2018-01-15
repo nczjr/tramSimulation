@@ -6,7 +6,6 @@ import com.agh.tramsim.elements.Tram;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.Date;
 
 public class TimeFactor extends Factor {
 

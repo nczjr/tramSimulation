@@ -25,7 +25,6 @@ import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
         Runnable runnable = new Runnable() {
             public void run() {
                 while(true){
@@ -65,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     });
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(1000);
                     }catch (InterruptedException e) {
                         e.printStackTrace();
                     }
